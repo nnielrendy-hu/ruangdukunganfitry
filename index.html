@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10281e">
+  <title>Fitry Siahaan | Ruang Dukungan</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <a class="brand" href="#"><span class="mark">F.</span><span><strong>Fitry Siahaan</strong><small>RUANG DUKUNGAN</small></span></a>
+  <a class="nav-cta" href="#donation">Kirim dukungan ↗</a>
+</header>
+<section class="hero">
+  <div class="hero-copy">
+    <span class="eyebrow">SEBUAH RUANG UNTUK BERBAGI</span>
+    <h1>Kebaikanmu<br>Punya <em>Arti</em> <em>Teman.</em></h1>
+    <p>Dukungan sederhana dapat menjadi semangat yang luar biasa.</p>
+    <a class="cta" href="#donation">Berikan dukungan ↓</a>
+  </div>
+  <div class="profile-card">
+    <span class="eyebrow">TERIMA KASIH SUDAH HADIR TEMAN</span>
+    <div class="avatar">FS</div><h2>Fitry Siahaan</h2><p>RUANG DUKUNGAN</p>
+    <hr><blockquote>“Hai Teman, aku Fitry.
+      Sebelumnya Terimakasih sudah ingin berbagi ya.
+      Tujuan Saya membuka dukungan donasi ini, untuk membantu saudara kita yang membutuhkan.
+      Terimakasih sudah mau berkorban.<em>TUHAN MEMBERKATI YA....</em>”</blockquote>
+    <span class="card-foot">BERBAGI DENGAN KETULUSAN ♡</span>
+  </div>
+</section>
+<main id="donation">
+  <div class="section-heading"><span class="eyebrow">FORM DUKUNGAN</span><h2>Mulai dari niat baik.</h2><p>Isi informasi di bawah ini untuk menyiapkan dukunganmu.</p></div>
+  <div class="layout">
+    <form id="donationForm" class="form-card">
+      <h3><span>01</span> Nominal dukungan</h3>
+      <label for="amount">Jumlah dukungan <b>*</b></label>
+      <div class="amount-field"><span>Rp</span><input id="amount" type="number" min="1000" step="1000" placeholder="0" required></div>
+      <div class="presets">
+        <button type="button" data-amount="5000">Rp5.000</button><button type="button" data-amount="10000">Rp10.000</button>
+        <button type="button" data-amount="25000">Rp25.000</button><button type="button" data-amount="100000">Rp100.000</button>
+      </div>
+      <h3><span>02</span> Informasi pengirim</h3>
+      <div class="two-col">
+        <div><label for="sender">Nama pengirim <b>*</b></label><input id="sender" type="text" maxlength="60" placeholder="Nama kamu" required></div>
+        
+      </div>
+      <label for="message">Pesan dukungan <b>*</b></label>
+      <textarea id="message" rows="3" maxlength="300" placeholder="Tulis pesan atau doa baikmu..." required></textarea>
+      <div class="message-helper"><span class="helper-title">Butuh inspirasi?</span><span class="helper-subtitle">Pilih kalimat, lalu sesuaikan dengan kata-katamu.</span></div>
+      <div class="message-presets" aria-label="Contoh pesan dukungan">
+        <button type="button" data-message="Semangat terus, Fitry! Semoga setiap langkahmu dipenuhi hal baik. 🤍">🤍 Semangat terus</button>
+        <button type="button" data-message="Kiranya Tuhan menyertai setiap proses dan rencana baikmu. 🙏">🙏 Doa dan berkat</button>
+        <button type="button" data-message="Terus bertumbuh dan jadi berkat bagi banyak orang. Kamu pasti bisa! ✨">✨ Terus bertumbuh</button>
+      </div>
+      <div class="char-count"><span id="charCount">0</span>/300 karakter</div>
+      <label>Media pilihan <small>(opsional)</small></label>
+      <div class="media-options">
+        <label><input type="radio" name="media" value="YouTube"> YouTube</label>
+        <label><input type="radio" name="media" value="TikTok"> TikTok</label>
+        <label><input type="radio" name="media" value="GIF"> GIF</label>
+        <label><input type="radio" name="media" value="Tidak ada" checked> Tidak ada</label>
+      </div>
+      <h3><span>03</span> Metode pembayaran</h3>
+      <p class="hint">PILIH PEMBAYARAN</p>
+      <div class="payment-grid">
+        <button type="button" data-method="DANA" aria-pressed="false"><b class="dana">DANA</b><small>DANA</small></button>
+        <button type="button" data-method="SeaBank" aria-pressed="false"><b class="seabank">SeaBank</b><small>SeaBank</small></button>
+      </div>
+      <div id="paymentDetails" class="payment-details" hidden>
+        <span class="eyebrow">DETAIL PEMBAYARAN</span>
+        <div id="danaAccount" hidden>
+          <h4>Transfer melalui DANA</h4>
+          <p>Transfer sesuai nominal dukungan ke akun berikut:</p>
+          <p class="account-name">Atas nama <strong>Magdalena Nadapdap</strong></p>
+          <div class="dana-number"><strong id="danaNumber">088279732646</strong><button type="button" id="copyDana" class="copy-button">Salin nomor</button></div>
+        </div>
+        <div id="seabankAccount" hidden>
+          <h4>Transfer melalui SeaBank</h4>
+          <p>Transfer sesuai nominal dukungan ke rekening berikut:</p>
+          <p class="account-name">Atas nama <strong>Fitry Siahaan</strong></p>
+          <div class="dana-number"><strong id="seaBankNumber">901402872450</strong><button type="button" id="copySeaBank" class="copy-button">Salin nomor</button></div>
+        </div>
+        <small>Pastikan nomor dan nama penerima sesuai sebelum mengirim uang.</small>
+        <p class="payment-warning">Setelah transfer, tekan tombol WhatsApp untuk mengirim detail konfirmasi. Website tidak memverifikasi transfer secara otomatis.</p>
+        <button type="button" id="whatsappConfirm" class="submit whatsapp-submit">Konfirmasi melalui WhatsApp <span>↗</span></button>
+      </div>
+
+      <div class="consent">
+       
+        <label><input id="agree" type="checkbox" required> Saya memahami dukungan ini bersifat sukarela dan tidak dapat dikembalikan, serta menyetujui ketentuan dan kebijakan privasi.</label>
+      </div>
+      <button class="submit" type="submit">Lanjutkan dukungan <span>→</span></button>
+      <div id="formMessage" role="status" aria-live="polite"></div>
+      <p class="note">Pembayaran dilakukan secara manual melalui DANA. Website ini tidak memverifikasi transfer secara otomatis; Fitry perlu memeriksa transaksi masuk sebelum mengonfirmasi.</p>
+    </form>
+    <aside>
+      <div class="summary-card">
+        <span class="eyebrow">RINGKASAN.</span><h2>Aku ada Ayat Alkitab Teman, :</h2><p>2 Korintus 9:7
+"Hendaklah masing-masing memberikan menurut kerelaan hatinya, jangan dengan sedih hati atau karena paksaan, sebab Allah mengasihi orang yang memberi dengan sukacita."</p><hr>
+       
+      </div>
+
+      <div class="quote-card"><b>“</b><p>Berbagi bukan soal seberapa besar yang diberikan, tetapi ketulusan di baliknya.</p><small>— Dengan hangat, Fitry</small></div>
+      <p class="privacy">✓ Jangan pernah membagikan PIN, OTP, atau kata sandi bank melalui formulir ini.</p>
+    </aside>
+  </div>
+</main>
+<footer>
+  <a class="brand" href="#"><span class="mark">F.</span><span><strong>Fitry Siahaan</strong><small>RUANG DUKUNGAN</small></span></a>
+  <p>GOD BLESS...</p><small>© <span id="year"></span> Fitry Siahaan | Website Development Support : @otniel.com</small>
+</footer>
+<script src="script.js"></script>
+</body></html>

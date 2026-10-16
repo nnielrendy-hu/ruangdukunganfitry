@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10281e">
+  <title>Dashboard | Ruang Dukungan</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .admin-main{max-width:1160px;width:90%;margin:auto;padding:52px 0 80px}
+    .admin-top{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+    .admin-top h1{font:800 clamp(30px,4vw,44px) var(--sans);letter-spacing:-.06em;margin:8px 0}
+    .admin-top p{color:var(--muted);margin:0;line-height:1.7}
+    .admin-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .admin-btn{border:1px solid var(--line);border-radius:7px;padding:11px 14px;background:#fff;color:var(--ink);font:700 12px var(--body);cursor:pointer}
+    .admin-btn.primary{background:var(--forest);color:#fff;border-color:var(--forest)}
+    .admin-notice{border:1px solid #e8d9a6;background:#fff9e6;color:#6d5b24;border-radius:10px;padding:14px 16px;line-height:1.7;font-size:12px;margin-bottom:22px}
+    .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:24px}
+    .stat{background:#fff;border:1px solid var(--line);border-radius:11px;padding:20px}
+    .stat span{display:block;color:var(--muted);font-size:11px;margin-bottom:10px}.stat strong{font:800 25px var(--sans)}
+    .table-wrap{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+    .table-head{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+    .table-head h2{font:700 16px var(--sans);margin:0}
+    .records{display:grid;gap:0}
+    .record{padding:19px 20px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr auto;gap:10px}
+    .record:last-child{border-bottom:0}
+    .record h3{font:700 14px var(--sans);margin:0 0 6px}.record p{margin:5px 0;color:#667366;line-height:1.6;overflow-wrap:anywhere}
+    .record-meta{font-size:11px;color:var(--muted)}
+    .record-amount{font:800 16px var(--sans);text-align:right}
+    .status{display:inline-block;background:#fff4d6;color:#775d14;border-radius:20px;padding:6px 9px;font-size:10px;font-weight:700;margin-top:8px}
+    .empty{padding:40px 20px;text-align:center;color:var(--muted);line-height:1.8}
+    .empty strong{display:block;color:var(--ink);margin-bottom:5px}
+    @media(max-width:640px){.stats{grid-template-columns:1fr}.record{grid-template-columns:1fr}.record-amount{text-align:left}}
+  </style>
+</head>
+<body>
+<header>
+  <a class="brand" href="index.html"><span class="mark">F.</span><span><strong>Fitry Siahaan</strong><small>RUANG DUKUNGAN</small></span></a>
+  <a class="nav-cta" href="index.html">Lihat website ↗</a>
+</header>
+<main class="admin-main">
+  <div class="admin-top">
+    <div><span class="eyebrow">PANEL RINGKAS</span><h1>Dashboard dukungan</h1><p>Daftar catatan dukungan yang tersimpan pada browser ini.</p></div>
+    <div class="admin-actions"><button class="admin-btn" id="exportBtn">Ekspor CSV</button><button class="admin-btn" id="clearBtn">Hapus catatan</button><button class="admin-btn primary" id="refreshBtn">Muat ulang</button></div>
+  </div>
+  <div class="admin-notice"><strong>Mode demo lokal:</strong> data ini hanya tersimpan di browser/perangkat yang digunakan untuk mengisi formulir. Catatan dari pengunjung lain tidak akan muncul di sini, dan menghapus data browser dapat menghilangkannya. Untuk dashboard online yang benar-benar menerima semua pesan, perlu database/backend dan pengamanan admin. Status pembayaran tidak diverifikasi otomatis.</div>
+  <section class="stats">
+    <div class="stat"><span>Total catatan</span><strong id="totalCount">0</strong></div>
+    <div class="stat"><span>Total nominal tercatat</span><strong id="totalAmount">Rp0</strong></div>
+    <div class="stat"><span>Menunggu pemeriksaan manual</span><strong id="pendingCount">0</strong></div>
+  </section>
+  <section class="table-wrap">
+    <div class="table-head"><h2>Pesan dukungan</h2><span class="record-meta" id="updatedLabel">Belum dimuat</span></div>
+    <div class="records" id="records"></div>
+  </section>
+</main>
+<footer><a class="brand" href="index.html"><span class="mark">F.</span><span><strong>Fitry Siahaan</strong><small>RUANG DUKUNGAN</small></span></a><small>Panel demo lokal</small></footer>
+<script>
+const KEY = "ruangDukunganRecords";
+const money = n => new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(n||0);
+const safe = value => String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+function loadRecords(){try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch{return []}}
+function render(){
+ const data=loadRecords();
+ document.querySelector("#totalCount").textContent=data.length;
+ document.querySelector("#totalAmount").textContent=money(data.reduce((sum,r)=>sum+(Number(r.amount)||0),0));
+ document.querySelector("#pendingCount").textContent=data.filter(r=>r.status!=="Terverifikasi").length;
+ document.querySelector("#updatedLabel").textContent="Diperbarui "+new Date().toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit"});
+ const host=document.querySelector("#records");
+ if(!data.length){host.innerHTML='<div class="empty"><strong>Belum ada catatan dukungan</strong>Catatan akan muncul setelah formulir dicoba di browser yang sama.</div>';return}
+ host.innerHTML=data.map(r=>'<article class="record"><div><h3>'+safe(r.name||"Tanpa nama")+'</h3><div class="record-meta">'+safe(new Date(r.createdAt).toLocaleString("id-ID"))+' · '+safe(r.method||"Metode tidak diketahui")+'</div><p>'+safe(r.message||"Tidak ada pesan")+'</p><p>Media: '+safe(r.media||"Tidak ada")+'</p><span class="status">'+safe(r.status||"Belum diverifikasi")+'</span></div><div class="record-amount">'+money(r.amount)+'</div></article>').join("");
+}
+document.querySelector("#refreshBtn").addEventListener("click",render);
+document.querySelector("#clearBtn").addEventListener("click",()=>{if(confirm("Hapus semua catatan yang tersimpan pada browser ini?")){localStorage.removeItem(KEY);render()}});
+document.querySelector("#exportBtn").addEventListener("click",()=>{
+ const rows=loadRecords(); if(!rows.length){alert("Belum ada catatan untuk diekspor.");return}
+ const csv=[["Nama","Nominal","Metode","Pesan","Media","Waktu","Status"],...rows.map(r=>[r.name,r.amount,r.method,r.message,r.media,r.createdAt,r.status])].map(row=>row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\r\n");
+ const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8;"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="catatan-ruang-dukungan.csv";a.click();URL.revokeObjectURL(a.href);
+});
+render();
+</script>
+</body></html>
